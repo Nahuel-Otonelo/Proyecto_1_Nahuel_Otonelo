@@ -10,7 +10,7 @@ app = FastAPI()
 @app.get("/")
 def root():
 
-    return {'message': 'Bienvenido!'}
+    return {'message': 'Holamundo!'}
 
 
 

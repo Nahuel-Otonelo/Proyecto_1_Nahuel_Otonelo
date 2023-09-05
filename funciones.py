@@ -4,7 +4,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 #Los dataframes que deben estar disponibles para que funcionen las funciones son:
 
 #dinero
-#steams
+#steamscd
 #dfreviews
 #respuesta3
 
@@ -13,10 +13,10 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 def userdataa( User_id : str ):
     #Utiliza los dataframes dinero, steams, dfreviews preprocesados devuelve.
-    dinero = pd.read_pickle('dinero.pkl') # tiene la suma de dinero gastado por usuario
-    steams = pd.read_pickle('steams.pkl') # es la tabla steams
-    dfreviews = pd.read_pickle('dfjuntado.pkl') # Desglosa la columna reviews de la tabla reviews, presenta solo las columnas que estan adentro de reviews.
-    items_count = pd.read_pickle('items_count.pkl') # es la tabla items pero sin la columna items.
+    dinero = pd.read_csv('dinero.csv') # tiene la suma de dinero gastado por usuario
+    steams = pd.read_csv('steams.csv') # es la tabla steams
+    dfreviews = pd.read_csv('dfjuntado.csv') # Desglosa la columna reviews de la tabla reviews, presenta solo las columnas que estan adentro de reviews.
+    items_count = pd.read_csv('items_count.csv') # es la tabla items pero sin la columna items.
     #user_id	funny   posted  last_edited     item_id     recommend    review
     user = User_id
     
@@ -41,7 +41,7 @@ def countreviewss( fecha1, fecha2 : str ):
     #utiliza dataframes dfreviews, retorna cantidad de usuarios que hiceron reviews y porcentaje recomendacion respecto a los reviews en las fechas dadas como parámetro.
     # las fechas deben estar en formato yyyy-mm-dd
 
-    dfreviews = pd.read_pickle('dfjuntado.pkl') # Desglosa la columna reviews de la tabla reviews, presenta solo las columnas que estan adentro de reviews.
+    dfreviews = pd.read_csv('dfjuntado.csv') # Desglosa la columna reviews de la tabla reviews, presenta solo las columnas que estan adentro de reviews.
     #user_id	funny   posted  last_edited     item_id     recommend    review
 
     if ((type(fecha1)== str) & (type(fecha2)== str)):
@@ -63,7 +63,7 @@ def countreviewss( fecha1, fecha2 : str ):
 def genree( genero : str ): 
     #dado el genero, devuelve el puesto en el  ranking del genero en funcion de la cantidad de horas jugadas en funcion de playtimeforever. 
     # El dataframe utilizado para la funcion viene procesado de otro notebook pero es una convinacion de  los items y  de steams 
-    respuesta3 = pd.read_pickle('respuesta3.pkl')
+    respuesta3 = pd.read_csv('respuesta3.csv')
     
     respuesta3.reset_index(inplace=True)
     a = respuesta3.loc[respuesta3['genre']== genero].index.values[0] + 1
@@ -77,7 +77,7 @@ def recomendacion_juegoo(juego_actual):
     
     #esta funcion retorna los 5 juegos mas parecidos en funcion de la similaridad del coseno tomando en cuenta los generos (genres)
     # Ejemplode item_id 643980
-    df=pd.read_pickle('steamsmodels.pkl')
+    df=pd.read_csv('steamsmodels.csv')
     # Obtener el índice del juego actual
     juego_index = df.index[df['item_id'] == juego_actual].tolist()[0]
 
