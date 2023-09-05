@@ -1,4 +1,6 @@
 import pandas as pd
+import numpy as np
+from sklearn.metrics.pairwise import cosine_similarity
 #Los dataframes que deben estar disponibles para que funcionen las funciones son:
 
 #dinero
@@ -66,3 +68,31 @@ def genree( genero : str ):
     respuesta3.reset_index(inplace=True)
     a = respuesta3.loc[respuesta3['genre']== genero].index.values[0] + 1
     return {'El puesto del genero es: ': a}
+
+
+# Recomendación Machine Learning
+
+def recomendacion_juegoo(juego_actual):
+    print(f"Entro a recomendacion_juego: {juego_actual}")
+    
+    #esta funcion retorna los 5 juegos mas parecidos en funcion de la similaridad del coseno tomando en cuenta los generos (genres)
+    # Ejemplode item_id 643980
+    df=pd.read_pickle('steamsmodels.pkl')
+    # Obtener el índice del juego actual
+    juego_index = df.index[df['item_id'] == juego_actual].tolist()[0]
+
+    # Extraer las características del juego actual
+    juego_features = df.iloc[juego_index, 1:].values.reshape(1, -1)  # Excluye la columna de nombres
+
+    # Extraer todas las características de los juegos
+    all_features = df.iloc[:, 1:].values
+
+    # Calcular la similitud del coseno entre el juego actual y todos los demás
+    sim_scores = cosine_similarity(juego_features, all_features)
+
+    # Obtener los índices de los juegos más similares (excluyendo el juego actual)
+    top_indices = np.argsort(sim_scores[0])[::-1][1:]
+
+    # Obtener los nombres de los juegos recomendados
+    recomendaciones = df.iloc[top_indices]['item_id'].tolist()
+    return recomendaciones[0:5]

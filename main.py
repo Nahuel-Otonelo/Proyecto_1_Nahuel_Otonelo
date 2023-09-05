@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from funciones import userdataa, countreviewss, genree
+from funciones import userdataa, countreviewss, genree, recomendacion_juegoo
 
 #countreviewss
 
@@ -37,7 +37,10 @@ async def genre( genero : str ):
     return result
 
 
-
+@app.get("/recomendacion_juego/{item_id}")
+async def recomendacion_juego( item_id : int ):
+    result = recomendacion_juegoo( item_id)
+    return result
 
 
 
